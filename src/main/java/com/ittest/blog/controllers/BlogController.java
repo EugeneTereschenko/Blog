@@ -38,13 +38,13 @@ public class BlogController {
         return "redirect:/blog";
     }
 
-    @GetMapping("/blog/{$Id}")
+    @GetMapping("/blog/{Id}")
     public String blogDetails(@PathVariable(value = "Id") long Id, Model model) {
         Optional<Post> post = postRepository.findById(Id);
         ArrayList<Post> res = new ArrayList<>();
         post.ifPresent(res::add);
-        model.addAttribute("post", post);
-        return "blog-add";
+        model.addAttribute("post", res);
+        return "blog-details";
     }
 
 }
