@@ -4,6 +4,7 @@ import com.ittest.blog.models.Post;
 import com.ittest.blog.repo.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,6 +41,9 @@ public class BlogController {
 
     @GetMapping("/blog/{Id}")
     public String blogDetails(@PathVariable(value = "Id") long Id, Model model) {
+        if (!postRepository.existsById(Id)) {
+            return "redirect:/blog";
+        }
         Optional<Post> post = postRepository.findById(Id);
         ArrayList<Post> res = new ArrayList<>();
         post.ifPresent(res::add);
@@ -47,4 +51,34 @@ public class BlogController {
         return "blog-details";
     }
 
+    @GetMapping("/blog/{Id}/edit")
+    public String blogEdit(@PathVariable(value = "Id") long Id, Model model) {
+        if (!postRepository.existsById(Id)) {
+            return "redirect:/blog";
+        }
+        Optional<Post> post = postRepository.findById(Id);
+        ArrayList<Post> res = new ArrayList<>();
+        post.ifPresent(res::add);
+        model.addAttribute("post", res);
+        return "blog-edit";
+    }
+
+    @PostMapping("/blog/{id}/edit")
+    public String blogPostUpdate(@PathVariable(value = "id") long id, @RequestParam String title, @RequestParam String anons, @RequestParam String full_text) {
+        Post post = postRepository.findById(id).orElseThrow();
+        post.setTitle(title);
+        post.setAnons(anons);
+        post.setFull_text(full_text);
+        postRepository.save(post);
+
+        return "redirect:/blog";
+    }
+
+    @PostMapping("/blog/{id}/remove")
+    public String blogPostDelete(@PathVariable(value = "id") long id) {
+        Post post = postRepository.findById(id).orElseThrow();
+        postRepository.delete(post);
+
+        return "redirect:/blog";
+    }
 }
