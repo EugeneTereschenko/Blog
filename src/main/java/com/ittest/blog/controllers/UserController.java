@@ -1,5 +1,6 @@
 package com.ittest.blog.controllers;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ittest.blog.models.User;
 import com.ittest.blog.service.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/api/v1/users")
 public class UserController {
+    private static final long serialVersionUID = 1L;
 
     private final UserDetailsServiceImpl userDetailsService;
 
@@ -24,8 +26,9 @@ public class UserController {
 
     @GetMapping(path = "/{userId}")
     public ResponseEntity<User> getUser(@PathVariable("userId") Long userId) {
-        User user = userDetailsService.getUser(userId);
-        return new ResponseEntity<User>(user, HttpStatus.OK);
+        User userTemp = new User();
+        userTemp = userDetailsService.getUser(userId);
+        return new ResponseEntity<>(userTemp, HttpStatus.OK);
     }
 
     @PostMapping

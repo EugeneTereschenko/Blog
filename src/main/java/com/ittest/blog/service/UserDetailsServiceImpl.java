@@ -1,5 +1,6 @@
 package com.ittest.blog.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ittest.blog.models.User;
 import com.ittest.blog.repo.UserRepository;
 import lombok.AllArgsConstructor;
@@ -8,11 +9,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class UserDetailsServiceImpl {
+    private static final long serialVersionUID = 1L;
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -27,8 +31,8 @@ public class UserDetailsServiceImpl {
 
     public User getUser(Long id) {
         log.info("Get user from the database", id);
-        User user = userRepository.getById(id);
-        return user;
+        Optional<User> user = userRepository.findById(id);
+        return user.get();
     }
 
     public List<User> getUsers() {
