@@ -1,18 +1,18 @@
 package com.ittest.blog.config;
 
-public enum ApplicationUserPersmission {
-    STUDENT_READ("student:read"),
-    STUDENT_WRITE("student:write"),
+public enum ApplicationUserPermission {
+    USER_READ("user:read"),
+    USER_WRITE("user:write"),
     COURSE_READ("course:read"),
     COURSE_WRITE("course:write");
 
     private final String permission;
 
-    ApplicationUserPersmission(String permission) {
+    ApplicationUserPermission(String permission) {
         this.permission = permission;
     }
 
-    public String getPersmission() {
+    public String getPermission() {
         return permission;
     }
 }
