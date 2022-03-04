@@ -19,7 +19,7 @@ import static com.ittest.blog.config.ApplicationUserRole.*;
 
 @Configuration
 @EnableWebSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
@@ -35,11 +35,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
-                /*.antMatchers("/api/v1/users/**").hasRole(USER.name())*/
+/*                .antMatchers("/api/**").hasRole(USER.name())
                 .antMatchers(HttpMethod.DELETE, "/api/**").hasAuthority(COURSE_WRITE.getPermission())
                 .antMatchers(HttpMethod.POST, "/api/**").hasAuthority(COURSE_WRITE.getPermission())
                 .antMatchers(HttpMethod.PUT, "/api/**").hasAuthority(COURSE_WRITE.getPermission())
-                .antMatchers(HttpMethod.GET, "/api/**").hasAnyRole(ADMIN.name(), ADMINTRAINEE.name())
+                .antMatchers( "/api/**").hasAnyRole(ADMIN.name(), ADMINTRAINEE.name())*/
                 .anyRequest()
                 .authenticated()
                 .and()
